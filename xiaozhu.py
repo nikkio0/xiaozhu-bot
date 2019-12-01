@@ -94,6 +94,8 @@ def opt_out(update, context):
     user_id = update.effective_user.id
     group_name = get_group_name(update)
     try:
+        print(groups.get(group_name))
+        print(user_id, groups.get(group_name))
         if not groups.get(group_name) or user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
