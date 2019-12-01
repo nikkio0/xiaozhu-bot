@@ -41,6 +41,8 @@ def zhu(update, context):
                 "小猪bot是本群的吉祥物，请尽情调戏。\n"
                 "小猪可以帮你呼唤沉睡不醒的群友进群围观。\n"
                 "在使用前请先征求小猪bot同意：https://t.me/xiaozhu_notify_bot\n"
+                "如过想要让小猪拥有更多超能力，请于 "
+                "https://github.com/6etacat/xiaozhu-bot 贡献代码\n"
                 "具体使用方法请输入 /help"
                  )
     context.bot.send_message(chat_id=update.effective_chat.id, text=help_text)
