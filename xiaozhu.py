@@ -110,7 +110,7 @@ def ping(update, context):
     group_name = get_group_name(update, '/oink')
     for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"[{group_name}] {caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"我已经把它们都拱了一遍了！Oink Oink！")
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f"我已经把 {group_name} 都拱了一遍了！Oink Oink！")
 
 ping_handler = CommandHandler('oink', ping)
 dispatcher.add_handler(ping_handler)
