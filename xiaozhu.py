@@ -14,9 +14,9 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                      level=logging.INFO)
 
 def zhu(update, context):
-    help_text = "小猪bot是本群的吉祥物，请尽情调戏。\n" + 
-    "小猪可以帮你呼唤沉睡不醒的群友进群围观。" + 
-    "在使用前请先征求小猪bot同意：https://t.me/xiaozhu_notify_bot"
+    help_text = """ 小猪bot是本群的吉祥物，请尽情调戏。
+                    小猪可以帮你呼唤沉睡不醒的群友进群围观。
+                    在使用前请先征求小猪bot同意：https://t.me/xiaozhu_notify_bot"""
     context.bot.send_message(chat_id=update.effective_chat.id, text=help_text)
 
 start_handler = CommandHandler('zhu', zhu)
