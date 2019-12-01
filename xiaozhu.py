@@ -108,10 +108,10 @@ dispatcher.add_handler(out_handler)
 def ping(update, context):
     caller = update.effective_user
     group_name = get_group_name(update, '/oink')
-    if update.effective_chat.link is None:
-        link = update.effective_chat.invite_link
-    elif update.effective_chat.invite_link:
+    if update.effective_chat.link:
         link = update.effective_chat.link
+    elif update.effective_chat.invite_link:
+        link = update.effective_chat.invite_link
     else:
         grp = update.effective_chat.title
         link = f"唉，我搞不到群聊的链接，快让 {grp} 群主把我加成管理员！"
