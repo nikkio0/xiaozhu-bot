@@ -20,9 +20,13 @@ start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
 
 def opt_in(update, context):
-    username = update.effective_user.username
+    user_id = update.effective_user.id
+    username = update.effective_user.name
     if username:
-        context.bot.send_message(chat_id=username, text=f"You have opt in to receive notifications. ")
+        try:
+            context.bot.send_message(chat_id=user_id, text=f"You have opt in to receive notifications. ")
+        except Exception:
+            context.bot.send_message(chat_id=update.effective_chat.id, text="You have to start a conversation with me first: https://t.me/xiaozhu_notify_bot")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"You don't have a username. Please set one in the settings")
 
