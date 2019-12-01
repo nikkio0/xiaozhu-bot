@@ -7,6 +7,8 @@ groups = {}
 with open("groups/index") as f:
     group_names = set(f.read().strip().split('\n'))
 
+print(group_names)
+
 for group_name in group_names:
     with open(f"groups/{group_name}.group") as f:
         groups[group_name] = set(f.read().strip().split('\n'))
