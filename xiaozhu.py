@@ -53,17 +53,15 @@ def opt_in(update, context):
     if username:
         try:
             if user_id not in groups[group_name]:
-                print(groups[group_name])
                 context.bot.send_message(chat_id=user_id, text=f"嗯，下次喊 {group_name} 就叫上你！")
                 groups[group_name].add(user_id)
-                update_group(group_name)
-                print(groups[group_name])
             else:
                 context.bot.send_message(chat_id=user_id, text=f"Oink！本来就要叫上你的。")
         except Exception:
             context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"唉，我没找到你的用户名啊，快加一个去！")
+    update_group(group_name)
 
 in_handler = CommandHandler('count_me_in', opt_in)
 dispatcher.add_handler(in_handler)
