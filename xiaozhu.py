@@ -23,6 +23,14 @@ def update_group(group_name):
         text = "\n".join([str(user_id) for user_id in groups[group_name]])
         f.write(text)
 
+def get_group_name(update):
+    msg = update.message.text.strip().split()
+    group_name = "default"
+    for i in range(len(msg)):
+        if msg[i].find('count_me_in') != -1:
+            if i != len(msg) - 1:
+                group_name = msg[i + 1]
+
 updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
 
@@ -44,12 +52,7 @@ dispatcher.add_handler(start_handler)
 def opt_in(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.name
-    msg = update.message.text.strip().split()
-    group_name = "default"
-    for i in range(len(msg)):
-        if msg[i].find('count_me_in') != -1:
-            if i != len(msg) - 1:
-                group_name = msg[i + 1]
+    group_name = get_group_name(update)
     if username:
         try:
             if user_id not in groups[group_name]:
@@ -68,22 +71,23 @@ dispatcher.add_handler(in_handler)
 
 def opt_out(update, context):
     user_id = update.effective_user.id
+    group_name = get_group_name(update)
     try:
         if user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
             context.bot.send_message(chat_id=user_id, text=f"哼，伦家本来就不想理你！")
             groups[group_name].remove(user_id)
-            update_group(group_name)
     except Exception:
         context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
+    update_group(group_name)
 
 out_handler = CommandHandler('count_me_out', opt_out)
 dispatcher.add_handler(out_handler)
 
 def ping(update, context):
     caller = update.effective_user
-    group_name = update.message.text.strip()
+    group_name = get_group_name(update)
     print(group_name)
     for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"{caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
