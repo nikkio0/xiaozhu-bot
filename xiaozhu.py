@@ -17,7 +17,7 @@ for group_name in group_names:
         else:
             groups[group_name] = set([int(uid) for uid in members.split('\n')])
 
-with open('token.secret') as f:
+with open(f'{prefix}/token.secret') as f:
     token = f.read().strip()
 
 def init_group(group_name):
