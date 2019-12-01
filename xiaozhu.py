@@ -14,7 +14,6 @@ for group_name in group_names:
             groups[group_name] = set()
         else:
             groups[group_name] = set(members.split('\n'))
-        print(groups[group_name])
 
 with open('token.secret') as f:
     token = f.read().strip()
