@@ -30,7 +30,6 @@ def init_group(group_name):
 def update_group(group_name):
     with open(f"groups/{group_name}.group", 'w') as f:
         text = "\n".join([str(user_id) for user_id in groups[group_name]])
-        print(text)
         f.write(text)
     if len(groups[group_name]) == 0:
         with open(f"groups/index") as f:
@@ -44,7 +43,6 @@ def update_group(group_name):
 def get_group_name(update, command):
     msg = update.message.text.strip().split()
     group_name = "default"
-    print(msg)
     for i in range(len(msg)):
         if msg[i].find(command) != -1:
             if i != len(msg) - 1:
@@ -77,7 +75,6 @@ def opt_in(update, context):
         if not groups.get(group_name):
             init_group(group_name)
         try:
-            print(groups.get(group_name))
             if user_id not in groups[group_name]:
                 context.bot.send_message(chat_id=user_id, text=f"嗯，下次喊 {group_name} 就叫上你！")
                 groups[group_name].add(user_id)
@@ -110,7 +107,7 @@ dispatcher.add_handler(out_handler)
 
 def ping(update, context):
     caller = update.effective_user
-    group_name = get_group_name(update)
+    group_name = get_group_name(update, '/oink')
     for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"[{group_name}] {caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
     context.bot.send_message(chat_id=update.effective_chat.id, text=f"我已经把它们都拱了一遍了！Oink Oink！")
