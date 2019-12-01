@@ -128,7 +128,21 @@ def tian(update, context):
 tian_handler = CommandHandler('tian', tian)
 dispatcher.add_handler(tian_handler)
 
+def helper(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="舔！！！")
+
+tian_handler = CommandHandler('help', helper)
+dispatcher.add_handler(tian_handler)
+
 def unknown(update, context):
+    help_text = (
+                "/zhu 小猪bot的简单自我介绍\n"
+                "/count_me_in 和 /count_me_out 会将你加入/移除默认通知名单\n"
+                "/count_me_in [group_name] 和 /count_me_out [group_name] 会将你加入[group_name]通知名单\n"
+                "/oink [group_name] 会私信通知[group_name]名单中的所有人，默认为默认名单"
+                "/tian 请不要过分调戏小猪"
+                "/help 帮助"
+                 )
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
 
 unknown_handler = MessageHandler(Filters.command, unknown)
