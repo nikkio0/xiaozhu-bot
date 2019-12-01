@@ -52,23 +52,21 @@ def opt_in(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.name
     group_name = get_group_name(update, 'count_me_in')
-    if username:
-        if not groups.get(group_name):
-            init_group(group_name)
-        try:
-            if user_id not in groups[group_name]:
-                t = f"嗯，下次喊 {group_name} 就叫上你！"
-                context.bot.send_message(chat_id=user_id, text=t)
-                groups[group_name].add(user_id)
-            else:
-                t = f"Oink！本来就要叫上你的。"
-                context.bot.send_message(chat_id=user_id, text=t)
-        except Exception:
-            t = "先跟我说句话: https://t.me/xiaozhu_notify_bot"
-            context.bot.send_message(chat_id=update.effective_chat.id, text=t)
-    else:
-        t = ("唉，我没找到你的用户名啊，快加一个去！\n"
-             "如果有用户名却还有问题，请联系 https://t.me/m_6etacat")
+    if not groups.get(group_name):
+        init_group(group_name)
+    try:
+        if user_id not in groups[group_name]:
+            t = f"嗯，下次喊 {group_name} 就叫上你！"
+            context.bot.send_message(chat_id=user_id, text=t)
+            groups[group_name].add(user_id)
+        else:
+            t = f"Oink！本来就要叫上你的。"
+            context.bot.send_message(chat_id=user_id, text=t)
+    except PermissionError:
+        t = "先和小猪私聊一下才可以的，哈哈哈: https://t.me/xiaozhu_notify_bot"
+        context.bot.send_message(chat_id=update.effective_chat.id, text=t)
+    except Exception:
+        t = "看来遇到bug了，请联系 https://t.me/m_6etacat"
         context.bot.send_message(chat_id=update.effective_chat.id, text=t)
     update_group(group_name)
 
