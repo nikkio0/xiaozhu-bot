@@ -30,6 +30,7 @@ def get_group_name(update):
         if msg[i].find('count_me_in') != -1:
             if i != len(msg) - 1:
                 group_name = msg[i + 1]
+    return group_name
 
 updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
