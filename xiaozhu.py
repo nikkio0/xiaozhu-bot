@@ -9,7 +9,11 @@ with open("groups/index") as f:
 
 for group_name in group_names:
     with open(f"groups/{group_name}.group") as f:
-        groups[group_name] = set(f.read().strip().split('\n'))
+        members = f.read().strip().split('\n')
+        if len(members) == 0:
+            groups[group_name] = set()
+        else:
+            groups[group_name] = set(members)
 
 with open('token.secret') as f:
     token = f.read().strip()
