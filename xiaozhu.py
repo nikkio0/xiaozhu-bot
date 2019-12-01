@@ -43,12 +43,16 @@ dispatcher.add_handler(start_handler)
 def opt_in(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.name
-    group_name = update.message.text.strip()
-    print(group_name)
+    msg = update.message.text.strip().split()
+    group_name = "default"
+    for i in range(len(msg)):
+        if msg[i].find('count_me_in') != -1:
+            if i != len(msg) - 1:
+                group_name = msg[i + 1]
     if username:
         try:
             if user_id not in groups[group_name]:
-                context.bot.send_message(chat_id=user_id, text=f"嗯，下次叫上你！")
+                context.bot.send_message(chat_id=user_id, text=f"嗯，下次喊 {group_name} 就叫上你！")
                 groups[group_name].add(user_id)
                 update_group(group_name)
             else:
