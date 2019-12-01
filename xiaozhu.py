@@ -61,7 +61,7 @@ def opt_in(update, context):
     group_name = get_group_name(update)
     if username:
         if not groups.get(group_name):
-            
+            init_group(group_name)
         try:
             if user_id not in groups[group_name]:
                 context.bot.send_message(chat_id=user_id, text=f"嗯，下次喊 {group_name} 就叫上你！")
