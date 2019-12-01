@@ -27,6 +27,7 @@ def init_group(group_name):
         f.write(group_name)
 
 def update_group(group_name):
+    print(group_name)
     if len(groups[group_name]) == 0:
         with open(f"groups/index") as f:
             group_names = set(f.read().strip().split('\n'))
