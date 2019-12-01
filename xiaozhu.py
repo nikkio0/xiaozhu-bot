@@ -30,6 +30,7 @@ def update_group(group_name):
 
 def get_group_name(update):
     msg = update.message.text.strip().split()
+    print(msg)
     group_name = "default"
     for i in range(len(msg)):
         if msg[i].find('count_me_in') != -1:
