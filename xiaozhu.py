@@ -2,6 +2,8 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 import logging
 
+opt_in_users = []
+
 with open('token.secret') as f:
     token = f.read().strip()
 
@@ -16,6 +18,16 @@ def start(update, context):
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
+
+def opt_in(update, context):
+    username = update.effective_user.username
+    if username:
+        context.bot.send_message(chat_id=username, text=f"You have opt in to receive notifications. ")
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"You don't have a username. Please set one in the settings")
+
+in_handler = CommandHandler('in', opt_in)
+dispatcher.add_handler(in_handler)
 
 def ping(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text=f"You are {update.effective_user.username}")
