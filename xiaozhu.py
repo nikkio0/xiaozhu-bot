@@ -95,7 +95,7 @@ def opt_out(update, context):
     user_id = update.effective_user.id
     group_name = get_group_name(update)
     try:
-        print(groups)
+        print(groups, group_name)
         print(groups.get(group_name))
         print(user_id, groups.get(group_name))
         if not groups.get(group_name) or user_id not in groups[group_name]:
