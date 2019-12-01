@@ -3,13 +3,14 @@ from telegram.ext import CommandHandler, MessageHandler, Filters
 import logging
 import os
 
+prefix = "/home/michael/xiaozhu-bot"
 groups = {}
 
-with open("groups/index") as f:
+with open(f"{prefix}/groups/index") as f:
     group_names = set(f.read().strip().split('\n'))
 
 for group_name in group_names:
-    with open(f"groups/{group_name}.group") as f:
+    with open(f"{prefix}/groups/{group_name}.group") as f:
         members = f.read().strip()
         if len(members) == 0:
             groups[group_name] = set()
@@ -22,22 +23,22 @@ with open('token.secret') as f:
 def init_group(group_name):
     if group_name is not "default":
         groups[group_name] = set()
-        with open(f"groups/{group_name}.group", 'w') as f:
+        with open(f"{prefix}/groups/{group_name}.group", 'w') as f:
             f.write("")
-        with open(f"groups/index", 'a') as f:
+        with open(f"{prefix}/groups/index", 'a') as f:
             f.write(group_name)
 
 def update_group(group_name):
-    with open(f"groups/{group_name}.group", 'w') as f:
+    with open(f"{prefix}/groups/{group_name}.group", 'w') as f:
         text = "\n".join([str(user_id) for user_id in groups[group_name]])
         f.write(text)
     if len(groups[group_name]) == 0:
-        with open(f"groups/index") as f:
+        with open(f"{prefix}/groups/index") as f:
             group_names = set(f.read().strip().split('\n'))
         if group_name is not "default":
             group_names.remove(group_name)
-            os.remove(f"groups/{group_name}.group")
-            with open(f"groups/index", 'w') as f:
+            os.remove(f"{prefix}/groups/{group_name}.group")
+            with open(f"{prefix}/groups/index", 'w') as f:
                 f.write("\n".join(group_names) + '\n')
 
 def get_group_name(update, command):
