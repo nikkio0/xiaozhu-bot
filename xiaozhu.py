@@ -41,12 +41,12 @@ def update_group(group_name):
             with open(f"groups/index", 'w') as f:
                 f.write("\n".join(group_names) + '\n')
 
-def get_group_name(update):
+def get_group_name(update, command):
     msg = update.message.text.strip().split()
     group_name = "default"
     print(msg)
     for i in range(len(msg)):
-        if msg[i].find('count_me_in') != -1:
+        if msg[i].find(command) != -1:
             if i != len(msg) - 1:
                 group_name = msg[i + 1]
     return group_name
@@ -72,7 +72,7 @@ dispatcher.add_handler(start_handler)
 def opt_in(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.name
-    group_name = get_group_name(update)
+    group_name = get_group_name(update, 'count_me_in')
     if username:
         if not groups.get(group_name):
             init_group(group_name)
@@ -94,18 +94,13 @@ dispatcher.add_handler(in_handler)
 
 def opt_out(update, context):
     user_id = update.effective_user.id
-    group_name = get_group_name(update)
+    group_name = get_group_name(update, 'count_me_out')
     try:
-        print(groups, group_name)
-        print(groups.get(group_name))
-        print(user_id, groups.get(group_name))
         if not groups.get(group_name) or user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
-            print(groups[group_name])
             context.bot.send_message(chat_id=user_id, text=f"哼，伦家也不想理你！")
             groups[group_name].remove(user_id)
-            print(groups[group_name])
     except Exception:
         context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
     update_group(group_name)
