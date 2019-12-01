@@ -1,5 +1,5 @@
 from telegram.ext import Updater
-from telegram.ext import CommandHandler
+from telegram.ext import CommandHandler, MessageHandler
 import logging
 
 opt_in_users = []
@@ -45,5 +45,11 @@ def tian(update, context):
 
 tian_handler = CommandHandler('tian', tian)
 dispatcher.add_handler(tian_handler)
+
+def unknown(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
+
+unknown_handler = MessageHandler(Filters.command, unknown)
+dispatcher.add_handler(unknown_handler)
 
 updater.start_polling()
