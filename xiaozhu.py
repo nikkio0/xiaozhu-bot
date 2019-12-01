@@ -30,7 +30,7 @@ def opt_in(update, context):
     else:
         context.bot.send_message(chat_id=update.effective_chat.id, text=f"You don't have a username. Please set one in the settings")
 
-in_handler = CommandHandler('in', opt_in)
+in_handler = CommandHandler('oink', opt_in)
 dispatcher.add_handler(in_handler)
 
 def ping(update, context):
