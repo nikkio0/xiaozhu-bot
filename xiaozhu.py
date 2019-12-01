@@ -78,7 +78,9 @@ dispatcher.add_handler(out_handler)
 
 def ping(update, context):
     caller = update.effective_user
-    for user_id in opt_in_users_group:
+    group_name = update.message.text.strip()
+    print(group_name)
+    for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"{caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
 
 ping_handler = CommandHandler('oink', ping)
