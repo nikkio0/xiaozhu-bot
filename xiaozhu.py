@@ -44,6 +44,7 @@ def update_group(group_name):
 def get_group_name(update):
     msg = update.message.text.strip().split()
     group_name = "default"
+    print(msg)
     for i in range(len(msg)):
         if msg[i].find('count_me_in') != -1:
             if i != len(msg) - 1:
