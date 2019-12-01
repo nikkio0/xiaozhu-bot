@@ -13,10 +13,13 @@ dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 
-def start(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text="Ping me when you want to notify all people in chat with: @xiaozhu /ping")
+def zhu(update, context):
+    help_text = """小猪bot是本群的吉祥物，请尽情调戏。
+    小猪可以帮你呼唤沉睡不醒的群友进群围观。
+    在使用前请先与小猪对话：https://t.me/xiaozhu_notify_bot"""
+    context.bot.send_message(chat_id=update.effective_chat.id, text=help_text)
 
-start_handler = CommandHandler('start', start)
+start_handler = CommandHandler('zhu', zhu)
 dispatcher.add_handler(start_handler)
 
 def opt_in(update, context):
