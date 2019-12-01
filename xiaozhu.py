@@ -2,10 +2,21 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler, MessageHandler, Filters
 import logging
 
-opt_in_users = set()
+groups = {}
+
+with open("groups/index") as f:
+    group_names = set(f.read().strip().split('\n'))
+
+for group_name in group_names:
+    with open(f"groups/{group_name}.group") as f:
+        groups[group_name] = set(f.read().strip().split('\n'))
 
 with open('token.secret') as f:
     token = f.read().strip()
+
+def update_group(group_name):
+    with open(f"groups/{group_name}.group", 'w') as f:
+        f.write("\n".join(groups[group_name]))
 
 updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
@@ -14,11 +25,12 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
                      level=logging.INFO)
 
 def zhu(update, context):
-    help_text = ("小猪bot是本群的吉祥物，请尽情调戏。\n"
-                 "小猪可以帮你呼唤沉睡不醒的群友进群围观。\n"
-                 "在使用前请先征求小猪bot同意：https://t.me/xiaozhu_notify_bot\n"
-                 "具体使用方法请输入 /help"
-    )
+    help_text = (
+                "小猪bot是本群的吉祥物，请尽情调戏。\n"
+                "小猪可以帮你呼唤沉睡不醒的群友进群围观。\n"
+                "在使用前请先征求小猪bot同意：https://t.me/xiaozhu_notify_bot\n"
+                "具体使用方法请输入 /help"
+                 )
     context.bot.send_message(chat_id=update.effective_chat.id, text=help_text)
 
 start_handler = CommandHandler('zhu', zhu)
@@ -27,11 +39,14 @@ dispatcher.add_handler(start_handler)
 def opt_in(update, context):
     user_id = update.effective_user.id
     username = update.effective_user.name
+    group_name = update.message.text.strip()
+    print(group_name)
     if username:
         try:
-            if user_id not in opt_in_users:
+            if user_id not in groups[group_name]:
                 context.bot.send_message(chat_id=user_id, text=f"嗯，下次叫上你！")
-                opt_in_users.add(user_id)
+                groups[group_name].add(user_id)
+                update_group(group_name)
             else:
                 context.bot.send_message(chat_id=user_id, text=f"Oink！本来就要叫上你的。")
         except Exception:
@@ -45,11 +60,12 @@ dispatcher.add_handler(in_handler)
 def opt_out(update, context):
     user_id = update.effective_user.id
     try:
-        if user_id not in opt_in_users:
+        if user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
             context.bot.send_message(chat_id=user_id, text=f"哼，伦家本来就不想理你！")
-            opt_in_users.remove(user_id)
+            groups[group_name].remove(user_id)
+            update_group(group_name)
     except Exception:
         context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
 
@@ -58,7 +74,7 @@ dispatcher.add_handler(out_handler)
 
 def ping(update, context):
     caller = update.effective_user
-    for user_id in opt_in_users:
+    for user_id in opt_in_users_group:
         context.bot.send_message(chat_id=user_id, text=f"{caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
 
 ping_handler = CommandHandler('oink', ping)
