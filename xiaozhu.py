@@ -19,8 +19,10 @@ with open('token.secret') as f:
     token = f.read().strip()
 
 def update_group(group_name):
+    print("here")
     with open(f"groups/{group_name}.group", 'w') as f:
-        f.write("\n".join(groups[group_name]))
+        print("no issues")
+        f.write("\n".join(list(groups[group_name])))
 
 updater = Updater(token=token, use_context=True)
 dispatcher = updater.dispatcher
