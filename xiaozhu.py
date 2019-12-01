@@ -18,6 +18,11 @@ for group_name in group_names:
 with open('token.secret') as f:
     token = f.read().strip()
 
+def init_group(group_name):
+    groups[group_name] = set()
+    with open(f"groups/{group_name}.group", 'w') as f:
+        f.write("")
+
 def update_group(group_name):
     with open(f"groups/{group_name}.group", 'w') as f:
         text = "\n".join([str(user_id) for user_id in groups[group_name]])
@@ -55,6 +60,8 @@ def opt_in(update, context):
     username = update.effective_user.name
     group_name = get_group_name(update)
     if username:
+        if not groups.get(group_name):
+            
         try:
             if user_id not in groups[group_name]:
                 context.bot.send_message(chat_id=user_id, text=f"嗯，下次喊 {group_name} 就叫上你！")
