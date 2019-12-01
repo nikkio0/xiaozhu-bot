@@ -37,7 +37,7 @@ def update_group(group_name):
             group_names.remove(group_name)
             os.remove(f"groups/{group_name}.group")
             with open(f"groups/index", 'w') as f:
-                f.write("\n".join(group_names))
+                f.write("\n".join(group_names) + '\n')
 
 def get_group_name(update):
     msg = update.message.text.strip().split()
