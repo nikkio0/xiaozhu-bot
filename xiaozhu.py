@@ -114,7 +114,7 @@ def ping(update, context):
         link = update.effective_chat.invite_link
     else:
         grp = update.effective_chat.title
-        link = f"唉，我搞不到群聊的链接，快让 {grp} 群主把我加成管理员！"
+        link = f"唉，我搞不到群聊的链接，快让“{grp}”群主把我加成管理员！"
     for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"[{group_name}] {caller.full_name}叫你去围观啦！ {link}")
     context.bot.send_message(chat_id=update.effective_chat.id, text=f"我已经把 {group_name} 都拱了一遍了！Oink Oink！")
