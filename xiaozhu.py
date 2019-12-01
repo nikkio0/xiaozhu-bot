@@ -41,7 +41,6 @@ def update_group(group_name):
 
 def get_group_name(update):
     msg = update.message.text.strip().split()
-    print(msg)
     group_name = "default"
     for i in range(len(msg)):
         if msg[i].find('count_me_in') != -1:
@@ -108,9 +107,9 @@ dispatcher.add_handler(out_handler)
 def ping(update, context):
     caller = update.effective_user
     group_name = get_group_name(update)
-    print(group_name)
     for user_id in groups[group_name]:
         context.bot.send_message(chat_id=user_id, text=f"[{group_name}] {caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f"我已经把它们都拱了一遍了！Oink Oink！")
 
 ping_handler = CommandHandler('oink', ping)
 dispatcher.add_handler(ping_handler)
