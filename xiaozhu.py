@@ -10,6 +10,7 @@ with open("groups/index") as f:
 for group_name in group_names:
     with open(f"groups/{group_name}.group") as f:
         members = f.read().strip().split('\n')
+        print(members)
         if len(members) == 0:
             groups[group_name] = set()
         else:
