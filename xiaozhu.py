@@ -58,7 +58,8 @@ dispatcher.add_handler(out_handler)
 
 def ping(update, context):
     caller = update.effective_user
-    context.bot.send_message(chat_id=update.effective_chat.id, text=f"{caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
+    for user_id in opt_in_users:
+        context.bot.send_message(chat_id=user_id, text=f"{caller.full_name}叫你去围观啦！ {update.effective_chat.link}")
 
 ping_handler = CommandHandler('oink', ping)
 dispatcher.add_handler(ping_handler)
