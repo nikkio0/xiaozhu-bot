@@ -22,6 +22,7 @@ def update_group(group_name):
     print("here")
     with open(f"groups/{group_name}.group", 'w') as f:
         print("no issues")
+        print(groups[group_name])
         print("\n".join(list(groups[group_name])))
         f.write("\n".join(list(groups[group_name])))
 
