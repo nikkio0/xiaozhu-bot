@@ -20,11 +20,12 @@ with open('token.secret') as f:
     token = f.read().strip()
 
 def init_group(group_name):
-    groups[group_name] = set()
-    with open(f"groups/{group_name}.group", 'w') as f:
-        f.write("")
-    with open(f"groups/index", 'a') as f:
-        f.write(group_name)
+    if group_name is not "default":
+        groups[group_name] = set()
+        with open(f"groups/{group_name}.group", 'w') as f:
+            f.write("")
+        with open(f"groups/index", 'a') as f:
+            f.write(group_name)
 
 def update_group(group_name):
     with open(f"groups/{group_name}.group", 'w') as f:
@@ -95,7 +96,7 @@ def opt_out(update, context):
         if not groups.get(group_name) or user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
-            context.bot.send_message(chat_id=user_id, text=f"哼，伦家本来就不想理你！")
+            context.bot.send_message(chat_id=user_id, text=f"哼，伦家也不想理你！")
             groups[group_name].remove(user_id)
     except Exception:
         context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
