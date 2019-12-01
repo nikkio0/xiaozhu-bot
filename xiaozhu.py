@@ -13,7 +13,7 @@ for group_name in group_names:
         if len(members) == 0:
             groups[group_name] = set()
         else:
-            groups[group_name] = set(members.split('\n'))
+            groups[group_name] = set([int(uid) for uid in members.split('\n')])
 
 with open('token.secret') as f:
     token = f.read().strip()
