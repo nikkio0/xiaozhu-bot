@@ -30,6 +30,7 @@ def init_group(group_name):
 def update_group(group_name):
     with open(f"groups/{group_name}.group", 'w') as f:
         text = "\n".join([str(user_id) for user_id in groups[group_name]])
+        print(text)
         f.write(text)
     if len(groups[group_name]) == 0:
         with open(f"groups/index") as f:
@@ -96,8 +97,10 @@ def opt_out(update, context):
         if not groups.get(group_name) or user_id not in groups[group_name]:
             context.bot.send_message(chat_id=user_id, text=f"滚滚滚！本来就不会叫你的，别来烦我！")
         else:
+            print(groups[group_name])
             context.bot.send_message(chat_id=user_id, text=f"哼，伦家也不想理你！")
             groups[group_name].remove(user_id)
+            print(groups[group_name])
     except Exception:
         context.bot.send_message(chat_id=update.effective_chat.id, text="先跟我说句话: https://t.me/xiaozhu_notify_bot")
     update_group(group_name)
