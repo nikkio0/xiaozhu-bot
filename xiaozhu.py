@@ -22,6 +22,8 @@ def init_group(group_name):
     groups[group_name] = set()
     with open(f"groups/{group_name}.group", 'w') as f:
         f.write("")
+    with open(f"groups/index", 'a') as f:
+        f.write(group_name)
 
 def update_group(group_name):
     with open(f"groups/{group_name}.group", 'w') as f:
